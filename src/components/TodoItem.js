@@ -13,13 +13,23 @@ class TodoItem extends React.Component {
         })
     }
 
+    handleUpdatedDone = e => {
+        if (e.key === "Enter") {
+            this.setState(()=> {
+                return {
+                    editing: false
+                }
+            })
+        }
+    }
+
     render() {
         let viewMode = {}
         let editMode = {}
 
         const { editing } = this.state;
 
-        if(this.state.editing) {
+        if(editing) {
             viewMode.display = "none"
         } else {
             editMode.display = "none"
@@ -50,7 +60,16 @@ class TodoItem extends React.Component {
                     <button onClick={() => this.props.handleDeleteProps(id)}>Delete</button>
                 </div>
             </li>
-            <input type="text" style={editMode} className={styles.textInput} />
+            <input 
+                type="text"
+                style={editMode}
+                className={styles.textInput}
+                value={title}
+                onChange={e => {
+                    this.props.setUpdate(e.target.value, id)
+                }}
+                onKeyDown={this.handleUpdatedDone}
+            />
            
         
             </>
