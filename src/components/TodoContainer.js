@@ -10,7 +10,7 @@ class TodoContainer extends Component {
             {
                 id: uuidv4(),
                 title: "Setup development environment",
-                completed: true
+                completed: false
             },
             {
                 id: uuidv4(),
@@ -20,7 +20,7 @@ class TodoContainer extends Component {
             {
                 id: uuidv4(),
                 title: "Setup production deployment",
-                completed: true
+                completed: false
             }
         ]
     };
@@ -64,14 +64,16 @@ class TodoContainer extends Component {
 
     render() {
         return (
-            <div>
-                <Header />
-                <InputTodo addTodoProps={this.addTodoItem} />
-                <TodosList 
-                    todos={this.state.todos}
-                    handleChangeProps={this.handleChange}
-                    handleDeleteProps={this.handleDelete}
-                />
+            <div className="container">
+                <div className="inner">
+                    <Header />
+                    <InputTodo addTodoProps={this.addTodoItem} />
+                    <TodosList 
+                        todos={this.state.todos}
+                        handleChangeProps={this.handleChange}
+                        handleDeleteProps={this.handleDelete}
+                    />
+                </div>
             </div>
         )
     }
