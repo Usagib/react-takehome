@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import InputTodo from "./InputTodo";
 import TodosList from "./TodosList";
 import { v4 as uuidv4 } from "uuid";
-
+/*
 class TodoContainer extends Component {
     state = {
         todos: []
@@ -17,9 +17,9 @@ class TodoContainer extends Component {
                 todos: loadedTodos
             })
         }
-       /* fetch("https://jsonplaceholder.typicode.com/todos?limit=10")
+       fetch("https://jsonplaceholder.typicode.com/todos?limit=10")
           .then(response => response.json())
-          .then(data => this.setState({ todos: data })); */
+          .then(data => this.setState({ todos: data }));
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -94,5 +94,65 @@ class TodoContainer extends Component {
         )
     }
 }
+*/
 
+const TodoContainer = () => {
+    const [todos, setTodos] = useState([])
+
+    const handleChange = id => {
+        setTodos(prevState => {
+            prevState.map(todo => {
+                if(todo.id === id) {
+                    return {
+                        ...todo,
+                        completed: !todo.completed,
+                    }
+                }
+                return todo
+            })
+        })
+    }
+
+    const delTodo = id => {
+        setTodos([
+            ...todos.filter(todo => {
+                return todo.id !== id
+            }),
+        ])
+    }
+
+    const addTodoItem = title => {
+        const newTodo = {
+            id: uuidv4(),
+            title: title,
+            completed: false,
+        }
+        setTodos([...todos, newTodo])
+    }
+
+    const setUpdate = (updatedTitle, id) => {
+        setTodos(
+            todos.map(todo => {
+                if(todo.id === id) {
+                    todo.title = updatedTitle
+                }
+                return todo
+            })
+        )
+    }
+
+    return(<>
+        <div className="container">
+            <div className="inner">
+                <Header />
+                <InputTodo addTodoProps={addTodoItem}/>
+                <TodosList todos={todos}
+                    handleChangeProps={handleChange}
+                    handleDeleteProps={delTodo}
+                    setUpdate={setUpdate}
+                />
+            </div>
+        </div>
+    </>)
+}
 export default TodoContainer
