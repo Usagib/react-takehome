@@ -97,9 +97,10 @@ import Header from "./Header";
 import InputTodo from "./InputTodo";
 import TodosList from "./TodosList";
 import { v4 as uuidv4 } from "uuid";
-import { Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import About from "../pages/About";
 import NoMatch from "../pages/NoMatch";
+import Navbar from "./Navbar";
 
 const TodoContainer = () => {
     const [todos, setTodos] = useState(getInitialTodos())
@@ -161,9 +162,11 @@ const TodoContainer = () => {
     }
 
     return(
-        <>
-            <Route exact path="/">
-             <div className="container">
+    <React.Fragment>
+        <Navbar />
+         <Routes>
+            <Route path="/" element={
+                <div className="container">
                     <div className="inner">
                         <Header />
                         <InputTodo addTodoProps={addTodoItem}/>
@@ -174,14 +177,15 @@ const TodoContainer = () => {
                         />
                     </div>
                 </div>
+            }>
+                
             </Route>
-            <Route path="/about">
-                <About />
+            <Route path="/about" component={<About />}>
             </Route>
-            <Route path="*">
-                <NoMatch />
-            </Route> 
-        </>
+            <Route path="*" element={<NoMatch/>}>
+            </Route>
+        </Routes>
+    </React.Fragment>
     )
 }
 export default TodoContainer
